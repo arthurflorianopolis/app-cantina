@@ -1,0 +1,18 @@
+services:
+  cantina:
+    build: .
+    ports:
+      - "80:80"
+      - "443:443"
+    environment:
+      DATABASE_URL: file:/data/cantina.db
+      AUTH_SECRET: ${AUTH_SECRET}
+      TZ: America/Sao_Paulo
+      TLS_CERT: /data/tls.crt
+      TLS_KEY: /data/tls.key
+    volumes:
+      - cantina-data:/data
+    restart: unless-stopped
+
+volumes:
+  cantina-data:

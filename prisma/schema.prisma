@@ -1,0 +1,81 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+enum Papel {
+  ALUNO
+  CANTINA
+  ADMIN
+}
+
+enum StatusReserva {
+  RESERVADA
+  CONSUMIDA
+  CANCELADA
+}
+
+enum OrigemReserva {
+  APP
+  MANUAL
+}
+
+model Matricula {
+  id        String    @id @default(cuid())
+  matricula String     @unique
+  email     String
+  nome      String
+  ativa     Boolean    @default(true)
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+  usuario   Usuario?
+  reservas  Reserva[]
+
+  @@index([email])
+}
+
+model Usuario {
+  id             String     @id @default(cuid())
+  email          String     @unique
+  senhaHash      String
+  nome           String
+  papel          Papel
+  matriculaId    String?     @unique
+  matricula      Matricula? @relation(fields: [matriculaId], references: [id])
+  createdAt      DateTime    @default(now())
+  confirmacoes   Reserva[]   @relation("ConfirmadoPor")
+}
+
+model Cardapio {
+  id        String    @id @default(cuid())
+  data      String    @unique
+  descricao String
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  reservas  Reserva[]
+}
+
+model Reserva {
+  id              String         @id @default(cuid())
+  matriculaId     String
+  matricula       Matricula     @relation(fields: [matriculaId], references: [id])
+  cardapioId      String
+  cardapio        Cardapio        @relation(fields: [cardapioId], references: [id])
+  qrToken         String          @unique
+  status          StatusReserva
+  origem          OrigemReserva  @default(APP)
+  motivoManual    String?
+  confirmadoPorId String?
+  confirmadoPor   Usuario?       @relation("ConfirmadoPor", fields: [confirmadoPorId], references: [id])
+  confirmadoEm    DateTime?
+  createdAt       DateTime       @default(now())
+  updatedAt       DateTime       @updatedAt
+
+  @@unique([matriculaId, cardapioId])
+  @@index([qrToken])
+  @@index([status])
+}
