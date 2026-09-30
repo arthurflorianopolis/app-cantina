@@ -50,14 +50,9 @@ export function FormLogin({ aviso }: { aviso?: string }) {
           {pending ? "Entrando..." : "Entrar"}
         </Botao>
         <p className="text-center text-sm text-zinc-600">
+          Conta local de administração ou cantina?{" "}
           <Link href="/esqueci-senha" className="font-semibold text-ifsc">
             Esqueceu a senha?
-          </Link>
-        </p>
-        <p className="text-center text-sm text-zinc-600">
-          Primeiro acesso?{" "}
-          <Link href="/primeiro-acesso" className="font-semibold text-ifsc">
-            Entrar com a matrícula
           </Link>
         </p>
       </form>

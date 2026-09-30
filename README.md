@@ -49,28 +49,20 @@ O arquivo `.env` não vai para o Git.
 ./deploy/enviar.sh
 ```
 
-## Logins de exemplo (seed)
+## Acesso
 
-Senha dos alunos: `aluno123`. Senha da cantina: `cantina123`.
+Alunos e servidores entram com a conta Google `@ifsc.edu.br` ou `@aluno.ifsc.edu.br`. Não é preciso cadastrar a pessoa antes. O e-mail e a senha são informados na página do Google.
+
+A lista de matrículas continua no administrador. Se o e-mail da conta Google for o mesmo de uma matrícula ativa, a pessoa pode reservar. Sem esse vínculo, ela entra e vê o cardápio, mas a reserva fica bloqueada.
+
+O botão do Google depende de `GOOGLE_CLIENT_ID`, `GOOGLE_CLIENT_SECRET` e de um `APP_URL` com nome e HTTPS. O endereço de retorno é `APP_URL/api/auth/google/callback`.
+
+CSV de exemplo: `exemplos/matriculas.csv`. Ana Costa `2025003`, Carlos Lima `2025012` e Beatriz Alves `2025013` estão só nessa lista.
+
+Contas locais abaixo servem para testar administração e cantina sem o Google. Senha da cantina: `cantina123`.
 
 | Papel   | E-mail                              | Senha      |
 |---------|-------------------------------------|------------|
 | Admin   | admin@ifsc.edu.br                   | admin123   |
 | Cantina | cantina@ifsc.edu.br                 | cantina123 |
 | Cantina | cantina2@ifsc.edu.br                | cantina123 |
-| Aluna   | maria.silva@aluno.ifsc.edu.br       | aluno123   |
-| Aluno   | joao.souza@aluno.ifsc.edu.br        | aluno123   |
-| Aluno   | pedro.oliveira@aluno.ifsc.edu.br    | aluno123   |
-| Aluna   | lucia.ferreira@aluno.ifsc.edu.br    | aluno123   |
-| Aluno   | rafael.souza@aluno.ifsc.edu.br      | aluno123   |
-| Aluna   | camila.rocha@aluno.ifsc.edu.br      | aluno123   |
-| Aluno   | bruno.martins@aluno.ifsc.edu.br     | aluno123   |
-| Aluna   | fernanda.dias@aluno.ifsc.edu.br     | aluno123   |
-| Aluno   | gustavo.nunes@aluno.ifsc.edu.br     | aluno123   |
-| Aluna   | juliana.pinto@aluno.ifsc.edu.br     | aluno123   |
-
-Só na lista (use **Primeiro acesso** com a matrícula; o app pede a senha em seguida): Ana Costa `2025003`, Carlos Lima `2025012`, Beatriz Alves `2025013`.
-
-CSV de exemplo: `exemplos/matriculas.csv`.
-
-**Esqueci a senha:** a pessoa informa matrícula e e-mail; o sistema envia uma senha temporária. Isso só funciona com `SMTP_HOST` e `SMTP_FROM` no `.env` (na VM: `/opt/cantina/.env`).

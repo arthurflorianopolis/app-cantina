@@ -13,7 +13,7 @@ export default async function MatriculasPage() {
   return (
     <PageShell
       titulo="Matrículas"
-      descricao="Cadastre um aluno ou importe a lista. O aluno só entra se matrícula e e-mail baterem."
+      descricao="Cadastre ou importe a lista. Quem entra usa a conta Google. A matrícula libera a reserva quando o e-mail é o mesmo."
     >
       <div className="grid gap-6 md:grid-cols-[minmax(0,360px)_1fr]">
         <div className="space-y-6">
