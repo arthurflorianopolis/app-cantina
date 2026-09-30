@@ -1,6 +1,17 @@
 # Cantina IFSC
 
-Sistema de reserva de almoço (até 22h no mesmo dia) e confirmação por QR na cantina.
+Aplicativo do câmpus São Carlos para organizar o almoço da cantina. A cantina publica o cardápio só nos dias em que há refeição. Quem vai almoçar reserva com antecedência e, na fila, apresenta um QR Code. A cantina confirma a refeição na hora e a administração acompanha quantas pessoas reservaram, quantas compareceram e quantas faltaram.
+
+## Como funciona
+
+1. A administração mantém a lista de matrículas, com matrícula, nome e e-mail institucional. Essa lista liga a conta Google à reserva.
+2. A cantina publica o cardápio de amanhã. Se não houver almoço, o dia fica sem cardápio.
+3. Estudantes e servidores entram com a conta Google `@ifsc.edu.br` ou `@aluno.ifsc.edu.br`. A senha é digitada na página do Google.
+4. Com o e-mail igual ao de uma matrícula ativa, a pessoa vê o cardápio de amanhã e reserva até as 22h de hoje. Pode cancelar enquanto esse prazo estiver aberto. Sem matrícula correspondente, entra e vê o cardápio, mas não reserva.
+5. A reserva gera um QR Code. No dia do almoço, a cantina lê o código, ou busca a matrícula, e marca a refeição como servida. Também é possível incluir alguém que não reservou, registrando o motivo.
+6. A administração consulta o relatório do período: reservas feitas pelo aplicativo, inclusões manuais, refeições servidas e faltas.
+
+Há três papéis. O estudante reserva e mostra o QR. A cantina publica o cardápio e confirma quem almoçou. A administração cuida das matrículas, da equipe e do relatório.
 
 ## Estrutura
 
