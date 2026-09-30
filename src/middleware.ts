@@ -21,6 +21,7 @@ async function sessaoDoPedido(req: NextRequest) {
     return {
       sub: payload.sub,
       papel: payload.papel as Papel,
+      precisaTrocarSenha: Boolean(payload.precisaTrocarSenha),
     };
   } catch {
     return null;
@@ -30,17 +31,34 @@ async function sessaoDoPedido(req: NextRequest) {
 export async function middleware(req: NextRequest) {
   const { pathname } = req.nextUrl;
   const sessao = await sessaoDoPedido(req);
-  const publica = pathname === "/login" || pathname === "/primeiro-acesso";
+  const publica =
+    pathname === "/login" ||
+    pathname === "/primeiro-acesso" ||
+    pathname === "/esqueci-senha";
 
   if (publica) {
     if (sessao) {
-      return NextResponse.redirect(new URL(destino(sessao.papel), req.url));
+      const url = sessao.precisaTrocarSenha
+        ? "/alterar-senha"
+        : destino(sessao.papel);
+      return NextResponse.redirect(new URL(url, req.url));
     }
     return NextResponse.next();
   }
 
   if (!sessao) {
     return NextResponse.redirect(new URL("/login", req.url));
+  }
+
+  if (sessao.precisaTrocarSenha) {
+    if (pathname === "/alterar-senha") {
+      return NextResponse.next();
+    }
+    return NextResponse.redirect(new URL("/alterar-senha", req.url));
+  }
+
+  if (pathname === "/alterar-senha") {
+    return NextResponse.redirect(new URL(destino(sessao.papel), req.url));
   }
 
   if (pathname.startsWith("/admin") && sessao.papel !== "ADMIN") {
@@ -63,5 +81,13 @@ export async function middleware(req: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/login", "/primeiro-acesso", "/aluno/:path*", "/cantina/:path*", "/admin/:path*"],
+  matcher: [
+    "/login",
+    "/primeiro-acesso",
+    "/esqueci-senha",
+    "/alterar-senha",
+    "/aluno/:path*",
+    "/cantina/:path*",
+    "/admin/:path*",
+  ],
 };

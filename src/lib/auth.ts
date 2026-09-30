@@ -10,6 +10,7 @@ export type Sessao = {
   papel: Papel;
   nome: string;
   email: string;
+  precisaTrocarSenha: boolean;
 };
 
 function segredo() {
@@ -26,29 +27,42 @@ export function destinoDoPapel(papel: Papel) {
   return "/aluno";
 }
 
-export async function criarSessao(sessao: Sessao) {
-  const token = await new SignJWT({
-    papel: sessao.papel,
-    nome: sessao.nome,
-    email: sessao.email,
-  })
-    .setProtectedHeader({ alg: "HS256" })
-    .setSubject(sessao.sub)
-    .setIssuedAt()
-    .setExpirationTime("7d")
-    .sign(segredo());
+export function destinoAposLogin(sessao: Pick<Sessao, "papel" | "precisaTrocarSenha">) {
+  if (sessao.precisaTrocarSenha) return "/alterar-senha";
+  return destinoDoPapel(sessao.papel);
+}
 
-  const jar = await cookies();
-  jar.set(COOKIE_SESSAO, token, {
-    httpOnly: true,
-    sameSite: "lax",
+export function opcoesCookieSessao() {
+  return {
+    httpOnly: true as const,
+    sameSite: "lax" as const,
     path: "/",
     // Só use cookie Secure quando o site estiver em HTTPS (COOKIE_SECURE=true).
     // Na VM em http://172.16.110.6 o Chrome/celular descarta o cookie e a
     // próxima página (ex.: escanear) volta para o login.
     secure: process.env.COOKIE_SECURE === "true",
     maxAge: 60 * 60 * 24 * 7,
-  });
+  };
+}
+
+export async function tokenDaSessao(sessao: Sessao) {
+  return new SignJWT({
+    papel: sessao.papel,
+    nome: sessao.nome,
+    email: sessao.email,
+    precisaTrocarSenha: sessao.precisaTrocarSenha,
+  })
+    .setProtectedHeader({ alg: "HS256" })
+    .setSubject(sessao.sub)
+    .setIssuedAt()
+    .setExpirationTime("7d")
+    .sign(segredo());
+}
+
+export async function criarSessao(sessao: Sessao) {
+  const token = await tokenDaSessao(sessao);
+  const jar = await cookies();
+  jar.set(COOKIE_SESSAO, token, opcoesCookieSessao());
 }
 
 export async function lerSessao(): Promise<Sessao | null> {
@@ -63,6 +77,7 @@ export async function lerSessao(): Promise<Sessao | null> {
       papel: payload.papel as Papel,
       nome: String(payload.nome ?? ""),
       email: String(payload.email ?? ""),
+      precisaTrocarSenha: Boolean(payload.precisaTrocarSenha),
     };
   } catch {
     return null;

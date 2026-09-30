@@ -55,7 +55,7 @@ export default async function AdminInicio() {
 
       <div className="mt-6 flex flex-wrap gap-3">
         <Link href="/admin/matriculas" className="rounded-xl bg-ifsc px-4 py-2.5 text-sm font-semibold text-white">
-          Importar CSV
+          Matrículas
         </Link>
         <Link href="/admin/cardapio" className="rounded-xl border border-zinc-300 bg-white px-4 py-2.5 text-sm font-semibold">
           Publicar cardápio

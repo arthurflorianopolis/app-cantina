@@ -1,7 +1,7 @@
 import { prisma } from "@/lib/prisma";
 import { exigirSessao } from "@/lib/auth";
 import { Card, PageShell } from "@/components/ui";
-import { FormImportarCsv } from "@/components/admin/forms";
+import { FormImportarCsv, FormMatriculaManual } from "@/components/admin/forms";
 
 export default async function MatriculasPage() {
   await exigirSessao("ADMIN");
@@ -13,12 +13,17 @@ export default async function MatriculasPage() {
   return (
     <PageShell
       titulo="Matrículas"
-      descricao="Importe a lista da instituição. O aluno só entra se matrícula e e-mail baterem."
+      descricao="Cadastre um aluno ou importe a lista. O aluno só entra se matrícula e e-mail baterem."
     >
       <div className="grid gap-6 md:grid-cols-[minmax(0,360px)_1fr]">
-        <Card>
-          <FormImportarCsv />
-        </Card>
+        <div className="space-y-6">
+          <Card>
+            <FormMatriculaManual />
+          </Card>
+          <Card>
+            <FormImportarCsv />
+          </Card>
+        </div>
         <Card>
           <h2 className="mb-3 font-semibold">{matriculas.length} na lista</h2>
           <div className="overflow-x-auto">

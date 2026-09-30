@@ -69,6 +69,8 @@ Senha dos alunos: `aluno123`. Senha da cantina: `cantina123`.
 | Aluno   | gustavo.nunes@aluno.ifsc.edu.br     | aluno123   |
 | Aluna   | juliana.pinto@aluno.ifsc.edu.br     | aluno123   |
 
-Só na lista (use **Primeiro acesso**): Ana Costa `2025003`, Carlos Lima `2025012`, Beatriz Alves `2025013`.
+Só na lista (use **Primeiro acesso** com a matrícula; o app pede a senha em seguida): Ana Costa `2025003`, Carlos Lima `2025012`, Beatriz Alves `2025013`.
 
 CSV de exemplo: `exemplos/matriculas.csv`.
+
+**Esqueci a senha:** a pessoa informa matrícula e e-mail; o sistema envia uma senha temporária. Isso só funciona com `SMTP_HOST` e `SMTP_FROM` no `.env` (na VM: `/opt/cantina/.env`).

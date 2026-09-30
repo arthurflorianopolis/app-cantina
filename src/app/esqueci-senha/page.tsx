@@ -1,18 +1,19 @@
 import { Card } from "@/components/ui";
-import { FormPrimeiroAcesso } from "@/components/auth/forms";
+import { FormEsqueciSenha } from "@/components/auth/forms";
 
-export default function PrimeiroAcessoPage() {
+export default function EsqueciSenhaPage() {
   return (
     <main className="flex min-h-full items-center justify-center px-4 py-10">
       <div className="w-full max-w-md space-y-6">
         <div className="text-center">
-          <h1 className="text-3xl font-semibold text-ifsc">Primeiro acesso</h1>
+          <h1 className="text-3xl font-semibold text-ifsc">Esqueceu a senha</h1>
           <p className="mt-2 text-sm text-zinc-600">
-            Informe só a matrícula. Na próxima tela você define a senha.
+            Informe matrícula e e-mail. Enviamos uma senha temporária e, no próximo
+            login, você cria uma senha nova.
           </p>
         </div>
         <Card>
-          <FormPrimeiroAcesso />
+          <FormEsqueciSenha />
         </Card>
       </div>
     </main>

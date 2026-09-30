@@ -40,6 +40,34 @@ export async function importarMatriculasAction(
   return { ok: true, mensagem: `${importadas} matrícula(s) importada(s).` };
 }
 
+export async function criarMatriculaAction(
+  _prev: EstadoAdmin,
+  formData: FormData,
+): Promise<EstadoAdmin> {
+  await exigirSessao("ADMIN");
+  const matricula = String(formData.get("matricula") ?? "").trim();
+  const email = String(formData.get("email") ?? "")
+    .trim()
+    .toLowerCase();
+  const nome = String(formData.get("nome") ?? "").trim();
+
+  if (!matricula || !email || !nome) {
+    return { erro: "Preencha matrícula, e-mail e nome." };
+  }
+  if (!emailInstitucional(email)) {
+    return { erro: "Use um e-mail institucional (@aluno.ifsc.edu.br ou @ifsc.edu.br)." };
+  }
+
+  await prisma.matricula.upsert({
+    where: { matricula },
+    create: { matricula, email, nome },
+    update: { email, nome, ativa: true },
+  });
+
+  revalidatePath("/admin/matriculas");
+  return { ok: true, mensagem: `Matrícula ${matricula} salva.` };
+}
+
 export async function salvarCardapioAction(
   _prev: EstadoAdmin,
   formData: FormData,

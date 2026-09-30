@@ -2,12 +2,33 @@
 
 import { useActionState } from "react";
 import {
+  criarMatriculaAction,
   criarOperadorAction,
   importarMatriculasAction,
   salvarCardapioAction,
   type EstadoAdmin,
 } from "@/actions/admin";
 import { AreaTexto, Aviso, Botao, Campo } from "@/components/ui";
+
+export function FormMatriculaManual() {
+  const [estado, action, pending] = useActionState(
+    criarMatriculaAction,
+    null as EstadoAdmin,
+  );
+  return (
+    <form action={action} className="space-y-4">
+      <h2 className="font-semibold">Adicionar uma matrícula</h2>
+      {estado?.erro ? <Aviso>{estado.erro}</Aviso> : null}
+      {estado?.ok ? <Aviso tipo="ok">{estado.mensagem}</Aviso> : null}
+      <Campo label="Matrícula" name="matricula" required />
+      <Campo label="Nome" name="nome" required />
+      <Campo label="E-mail institucional" name="email" type="email" required />
+      <Botao type="submit" disabled={pending}>
+        {pending ? "Salvando..." : "Adicionar"}
+      </Botao>
+    </form>
+  );
+}
 
 export function FormImportarCsv() {
   const [estado, action, pending] = useActionState(
@@ -16,6 +37,7 @@ export function FormImportarCsv() {
   );
   return (
     <form action={action} className="space-y-4">
+      <h2 className="font-semibold">Importar lista (CSV)</h2>
       {estado?.erro ? <Aviso>{estado.erro}</Aviso> : null}
       {estado?.ok ? <Aviso tipo="ok">{estado.mensagem}</Aviso> : null}
       <label className="block space-y-1.5">

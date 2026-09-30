@@ -39,15 +39,16 @@ model Matricula {
 }
 
 model Usuario {
-  id             String     @id @default(cuid())
-  email          String     @unique
-  senhaHash      String
-  nome           String
-  papel          Papel
-  matriculaId    String?     @unique
-  matricula      Matricula? @relation(fields: [matriculaId], references: [id])
-  createdAt      DateTime    @default(now())
-  confirmacoes   Reserva[]   @relation("ConfirmadoPor")
+  id                  String     @id @default(cuid())
+  email               String     @unique
+  senhaHash           String
+  nome                String
+  papel               Papel
+  precisaTrocarSenha  Boolean    @default(false)
+  matriculaId         String?     @unique
+  matricula           Matricula? @relation(fields: [matriculaId], references: [id])
+  createdAt           DateTime    @default(now())
+  confirmacoes        Reserva[]   @relation("ConfirmadoPor")
 }
 
 model Cardapio {
